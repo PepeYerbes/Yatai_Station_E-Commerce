@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const reviewSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,8 +26,10 @@ const reviewSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-    },
+    }
     
-})
+});
+
 const review = mongoose.model("review", reviewSchema);
-module.exports = review;
+
+export default review;

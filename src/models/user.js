@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const userSchema = new mongoose.Schema({
     displayName: {
         type: String,
@@ -10,8 +11,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
-        match: [ /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/, 'Por favor ingresa un email válido' ]
+        match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     },
+    
     hashpassword: {
         type: String,
         required: true,
@@ -29,7 +31,15 @@ const userSchema = new mongoose.Schema({
         default: "https://placeholder.com/100x100.png",  
     },
     phone: {
-        type: String,  
+        type: String,
+        required: false,
+        match: [/^\d{10}$/, 'El número de teléfono debe contener exactamente 10 dígitos'],
+    },
+    
+    age: {
+        type: Number,
+        required: false,
+        min: 0,  
         max: 10,
     },
     isActive: { 
@@ -37,5 +47,7 @@ const userSchema = new mongoose.Schema({
         default: true,
     },
 });
+
 const User = mongoose.model("User", userSchema);
-module.exports = User;
+
+export default User;

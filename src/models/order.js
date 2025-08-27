@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const orderSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -16,6 +17,11 @@ const orderSchema = new mongoose.Schema({
             required: true,
             min: 1,
         },
+        price : {
+            type: Number,
+            required: true,
+            min: 1,
+        },
     }],
     totalPrice: {
         type: Number,
@@ -24,7 +30,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["Pending", "Shipped", "Delivered", "Cancelled"],
+        enum: ["Pending", "Shipped", "Cancelled"],
         default: "Pending",
     },
     orderDate: {
@@ -35,15 +41,11 @@ const orderSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
-    shippingAddress: {
-        type: String,
+    paymentMethod: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PaymentMethod',
+        enum: ["Credit Card", "PayPal", "Bank Transfer", "Cash"],
         required: true,
-        trim: true,
-    },
-    PaymentAddress: {           
-        type: String,
-        required: true,
-        trim: true,
     },
     paymentStatus: {
         type: String,
@@ -61,12 +63,6 @@ const orderSchema = new mongoose.Schema({
         min: 0,
         default: 0,
     },
-    shippingCost: {
-        type: Number,
-        required: true,
-        min: 0,
-        default: 0,
-    },
     discount: {
         type: Number,
         required: true,
@@ -78,6 +74,19 @@ const orderSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-})
+    shippingAddress: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    contactPhone: {
+        type: String,
+        required: true,
+        trim: true,
+
+},
+});
+
 const order = mongoose.model("order", orderSchema);
-module.exports = order;
+
+export default order;
